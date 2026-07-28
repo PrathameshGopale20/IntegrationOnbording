@@ -1,0 +1,45 @@
+<section class="step-panel" [formGroup]="formGroup">
+  <header class="step-panel__header">
+    <div class="step-panel__header-icon" aria-hidden="true">
+      <mat-icon>view_list</mat-icon>
+    </div>
+    <div>
+      <h2 class="step-panel__title">{{ pageTitle }}</h2>
+      <p class="step-panel__subtitle">{{ pageSubtitle }}</p>
+    </div>
+  </header>
+
+  <div class="step-panel__card" formArrayName="fields">
+    <div class="cf-table__head">
+      <span>Application Field</span>
+      <span>Applicable For</span>
+      <span>Edit</span>
+      <span>Tagging</span>
+      <span>Audit</span>
+      <span>Transfer</span>
+      <span>Allocation</span>
+      <span>Split</span>
+      <span>Retire</span>
+    </div>
+
+    @for (ctrl of fields.controls; track $index; let i = $index) {
+      <div class="cf-table__row" [formGroupName]="i">
+        <strong>{{ rowGroup(i).get('applicationField')?.value || '—' }}</strong>
+        <span [class]="applicableClass(rowGroup(i).get('applicableFor')?.value)">
+          {{ rowGroup(i).get('applicableFor')?.value || '—' }}
+        </span>
+        <mat-checkbox formControlName="forEdit"></mat-checkbox>
+        <mat-checkbox formControlName="forTagging"></mat-checkbox>
+        <mat-checkbox formControlName="forAudit"></mat-checkbox>
+        <mat-checkbox formControlName="forTransfer"></mat-checkbox>
+        <mat-checkbox formControlName="forAllocation"></mat-checkbox>
+        <mat-checkbox formControlName="forSplit"></mat-checkbox>
+        <mat-checkbox formControlName="forRetire"></mat-checkbox>
+      </div>
+    }
+
+    @if (fields.length === 0) {
+      <p class="step-panel__empty">No customer fields imported yet.</p>
+    }
+  </div>
+</section>

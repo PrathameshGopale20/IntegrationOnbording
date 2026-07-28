@@ -1,0 +1,26 @@
+<div
+  class="main-layout"
+  [class.main-layout--rail]="isRailCollapsed()"
+  [class.main-layout--compact]="isCompactViewport()"
+>
+  <app-header class="main-layout__header" (menuToggle)="onToggleSidebar()"></app-header>
+
+  <mat-sidenav-container class="main-layout__container" autosize>
+    <mat-sidenav
+      class="main-layout__sidenav"
+      [mode]="sidenavMode()"
+      [opened]="sidenavOpened()"
+      [fixedInViewport]="false"
+      (openedChange)="onSidenavOpenedChange($event)"
+    >
+      <app-sidebar (navigate)="onSidebarNavigate()"></app-sidebar>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="main-layout__content-shell">
+      <main class="main-layout__content">
+        <router-outlet></router-outlet>
+      </main>
+      <app-footer></app-footer>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,67 @@
+// ---------------------------------------------------------------------------
+// Color palette — CSS custom properties only (no duplicated hex in components)
+// ---------------------------------------------------------------------------
+
+:root {
+  // Brand
+  --color-primary: #1565c0;
+  --color-primary-hover: #0d47a1;
+  --color-primary-active: #0a3a82;
+  --color-primary-light: #e3f2fd;
+  --color-primary-contrast: #ffffff;
+
+  --color-secondary: #3949ab;
+  --color-secondary-hover: #303f9f;
+  --color-secondary-active: #283593;
+  --color-secondary-light: #e8eaf6;
+  --color-secondary-contrast: #ffffff;
+
+  // Semantic
+  --color-success: #2e7d32;
+  --color-success-hover: #1b5e20;
+  --color-success-light: #e8f5e9;
+  --color-success-contrast: #ffffff;
+
+  --color-warning: #ef6c00;
+  --color-warning-hover: #e65100;
+  --color-warning-light: #fff3e0;
+  --color-warning-contrast: #ffffff;
+
+  --color-danger: #c62828;
+  --color-danger-hover: #b71c1c;
+  --color-danger-light: #ffebee;
+  --color-danger-contrast: #ffffff;
+
+  --color-info: #00838f;
+  --color-info-hover: #006064;
+  --color-info-light: #e0f7fa;
+  --color-info-contrast: #ffffff;
+
+  // Surfaces
+  --color-surface: #ffffff;
+  --color-surface-alt: #f5f7fa;
+  --color-surface-raised: #ffffff;
+  --color-background: #f5f7fa;
+  --color-overlay: rgba(27, 36, 48, 0.48);
+
+  // Text
+  --color-text: #1b2430;
+  --color-text-secondary: #3d4a5c;
+  --color-text-muted: #5f6b7c;
+  --color-text-disabled: #9aa3b2;
+  --color-text-inverse: #ffffff;
+
+  // Borders & focus
+  --color-border: #d7dee8;
+  --color-border-strong: #b8c2d1;
+  --color-divider: #e6ebf2;
+  --color-focus-ring: rgba(21, 101, 192, 0.36);
+
+  // Shell (derived from brand tokens)
+  --shell-header-bg: var(--color-primary);
+  --shell-header-fg: var(--color-primary-contrast);
+  --shell-header-border: rgba(255, 255, 255, 0.1);
+  --shell-nav-hover-bg: rgba(21, 101, 192, 0.06);
+  --shell-nav-active-bg: rgba(21, 101, 192, 0.1);
+  --shell-nav-active-fg: var(--color-primary);
+}

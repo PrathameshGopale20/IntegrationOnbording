@@ -1,0 +1,47 @@
+<nav
+  class="app-sidebar"
+  [class.app-sidebar--rail]="isRailCollapsed()"
+  aria-label="Primary"
+>
+  @for (group of navigationGroups; track group.id) {
+    <div class="app-sidebar__group">
+      <div class="app-sidebar__group-label" [attr.title]="group.label">
+        <span class="app-sidebar__group-text">{{ group.label }}</span>
+      </div>
+
+      <mat-nav-list class="app-sidebar__list">
+        @for (item of group.items; track item.id) {
+          @if (item.route && !item.disabled) {
+            <a
+              mat-list-item
+              class="app-sidebar__item"
+              [routerLink]="item.route"
+              routerLinkActive="app-sidebar__item--active"
+              [routerLinkActiveOptions]="{ exact: item.exact === true }"
+              [matTooltip]="item.label"
+              [matTooltipDisabled]="!isRailCollapsed()"
+              matTooltipPosition="right"
+              (click)="onNavigate()"
+            >
+              <mat-icon matListItemIcon class="app-sidebar__icon">{{ item.icon }}</mat-icon>
+              <span matListItemTitle class="app-sidebar__label">{{ item.label }}</span>
+            </a>
+          } @else {
+            <button
+              mat-list-item
+              type="button"
+              class="app-sidebar__item app-sidebar__item--disabled"
+              disabled
+              [matTooltip]="item.label"
+              [matTooltipDisabled]="!isRailCollapsed()"
+              matTooltipPosition="right"
+            >
+              <mat-icon matListItemIcon class="app-sidebar__icon">{{ item.icon }}</mat-icon>
+              <span matListItemTitle class="app-sidebar__label">{{ item.label }}</span>
+            </button>
+          }
+        }
+      </mat-nav-list>
+    </div>
+  }
+</nav>

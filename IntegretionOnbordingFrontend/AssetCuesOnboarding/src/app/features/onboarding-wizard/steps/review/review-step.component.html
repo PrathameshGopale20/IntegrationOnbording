@@ -1,0 +1,67 @@
+<section class="step-panel">
+  <header class="step-panel__header">
+    <div class="step-panel__header-icon" aria-hidden="true">
+      <mat-icon>fact_check</mat-icon>
+    </div>
+    <div>
+      <h2 class="step-panel__title">{{ pageTitle }}</h2>
+      <p class="step-panel__subtitle">{{ pageSubtitle }}</p>
+    </div>
+  </header>
+
+  <div class="review-grid">
+    <article class="review-card">
+      <h3>Basic Details</h3>
+      <p><strong>Customer:</strong> {{ basic?.customerName || '—' }} ({{ basic?.customerId || '—' }})</p>
+      <p><strong>Tenant:</strong> {{ basic?.tenantId || '—' }}</p>
+      <p><strong>Access:</strong> {{ basic?.accessApproach || '—' }}</p>
+    </article>
+
+    <article class="review-card">
+      <h3>Companies</h3>
+      <p>{{ companiesCount }} company record(s)</p>
+    </article>
+
+    <article class="review-card">
+      <h3>Credentials</h3>
+      <p>{{ model?.credentials ? 'Credentials loaded' : 'Not set' }}</p>
+    </article>
+
+    <article class="review-card">
+      <h3>Transactions</h3>
+      <p>{{ transactionsCount }} transaction(s)</p>
+    </article>
+
+    <article class="review-card">
+      <h3>Endpoints</h3>
+      <p>{{ endpointsCount }} endpoint(s)</p>
+    </article>
+
+    <article class="review-card">
+      <h3>Fields</h3>
+      <p>{{ fieldsCount }} field(s)</p>
+    </article>
+
+    <article class="review-card">
+      <h3>Field Mapping</h3>
+      <p>{{ mappingsCount }} mapping(s)</p>
+    </article>
+
+    <article class="review-card">
+      <h3>Scheduler</h3>
+      <p>
+        {{ model?.scheduler?.frequency || '—' }}
+        · {{ model?.scheduler?.startTime || '—' }}
+        - {{ model?.scheduler?.endTime || '—' }}
+      </p>
+    </article>
+
+    <article class="review-card review-card--action">
+      <h3>Generate SQL</h3>
+      <p>
+        Click <strong>Submit</strong> to download an integration script in the same format as
+        <code>PIDILITE INTEGRATION SCRIPT.sql</code> / <code>Healthium Integration_Script.sql</code>.
+      </p>
+    </article>
+  </div>
+</section>

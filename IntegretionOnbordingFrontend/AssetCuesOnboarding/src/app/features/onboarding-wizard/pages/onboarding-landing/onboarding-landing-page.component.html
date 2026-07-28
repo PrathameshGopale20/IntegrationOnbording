@@ -1,0 +1,151 @@
+<section class="onboarding-landing page-container">
+  <header class="onboarding-landing__header">
+    <div class="onboarding-landing__titles">
+      <h1 class="onboarding-landing__title">{{ pageTitle }}</h1>
+      <p class="onboarding-landing__description">{{ pageDescription }}</p>
+    </div>
+
+    <div class="onboarding-landing__actions">
+      <button mat-stroked-button type="button" class="onboarding-landing__refresh" (click)="onRefresh()">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="onboarding-landing__start"
+        (click)="onStartNewOnboarding()"
+      >
+        <mat-icon>add</mat-icon>
+        Start New Customer Onboarding
+      </button>
+    </div>
+  </header>
+
+  <mat-card class="onboarding-landing__card card card--dashboard">
+    <div class="onboarding-landing__toolbar table-toolbar">
+      <mat-form-field class="onboarding-landing__search table-search" appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Search</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input
+          matInput
+          type="search"
+          [formControl]="searchControl"
+          placeholder="Search by customer name or ID"
+          autocomplete="off"
+        />
+      </mat-form-field>
+    </div>
+
+    @if (hasSessions) {
+      <div class="table-container">
+        <table
+          mat-table
+          [dataSource]="filteredSessions"
+          class="ac-table ac-table--hover onboarding-landing__table"
+        >
+          <ng-container matColumnDef="customerName">
+            <th mat-header-cell *matHeaderCellDef>Customer Name</th>
+            <td mat-cell *matCellDef="let row">{{ row.customerName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="customerId">
+            <th mat-header-cell *matHeaderCellDef>Customer Id</th>
+            <td mat-cell *matCellDef="let row">{{ row.customerId }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="integrationType">
+            <th mat-header-cell *matHeaderCellDef>Integration Type</th>
+            <td mat-cell *matCellDef="let row">{{ row.integrationType }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="application">
+            <th mat-header-cell *matHeaderCellDef>Application</th>
+            <td mat-cell *matCellDef="let row">{{ row.application }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="currentStep">
+            <th mat-header-cell *matHeaderCellDef>Current Step</th>
+            <td mat-cell *matCellDef="let row">{{ row.currentStep }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let row">
+              <mat-chip-set>
+                <mat-chip [class]="getStatusChipClass(row.status)" disableRipple>
+                  {{ row.status }}
+                </mat-chip>
+              </mat-chip-set>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="createdDate">
+            <th mat-header-cell *matHeaderCellDef>Created Date</th>
+            <td mat-cell *matCellDef="let row">{{ row.createdDate | date: 'mediumDate' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="updatedDate">
+            <th mat-header-cell *matHeaderCellDef>Updated Date</th>
+            <td mat-cell *matCellDef="let row">{{ row.updatedDate | date: 'mediumDate' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let row" class="onboarding-landing__row-actions">
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Resume"
+                aria-label="Resume"
+                (click)="onResume(row)"
+              >
+                <mat-icon>play_circle</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                type="button"
+                class="onboarding-landing__delete"
+                matTooltip="Delete"
+                aria-label="Delete"
+                (click)="onDelete(row)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    } @else {
+      <div class="onboarding-landing__empty table-empty">
+        <mat-icon class="onboarding-landing__empty-icon" aria-hidden="true">assignment_ind</mat-icon>
+        <h2 class="table-empty__title">No onboarding sessions available.</h2>
+        <p class="table-empty__description">
+          Start a new customer onboarding session to generate integration configuration for the
+          AssetCues Integration System.
+        </p>
+        <button mat-flat-button color="primary" type="button" (click)="onStartNewOnboarding()">
+          <mat-icon>add</mat-icon>
+          Start New Customer Onboarding
+        </button>
+      </div>
+    }
+  </mat-card>
+
+  <button
+    mat-fab
+    color="primary"
+    type="button"
+    class="onboarding-landing__fab"
+    (click)="onStartNewOnboarding()"
+    matTooltip="Start New Customer"
+    aria-label="Start New Customer"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</section>

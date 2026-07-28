@@ -1,0 +1,50 @@
+<section class="step-panel" [formGroup]="formGroup">
+  <header class="step-panel__header">
+    <div class="step-panel__header-icon" aria-hidden="true">
+      <mat-icon>compare_arrows</mat-icon>
+    </div>
+    <div>
+      <h2 class="step-panel__title">{{ pageTitle }}</h2>
+      <p class="step-panel__subtitle">{{ pageSubtitle }}</p>
+    </div>
+  </header>
+
+  <div class="step-panel__card" formArrayName="mappings">
+    <div class="map-table__head">
+      <span>Customer Field</span>
+      <span>Standard Field</span>
+      <span>DB Column</span>
+      <span>Sequence</span>
+      <span></span>
+    </div>
+
+    @for (ctrl of mappings.controls; track $index; let i = $index) {
+      <div class="map-table__row" [formGroupName]="i">
+        <mat-form-field appearance="outline">
+          <mat-label>Customer Field</mat-label>
+          <input matInput formControlName="customerField" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Standard Field</mat-label>
+          <input matInput formControlName="standardField" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>DB Column</mat-label>
+          <input matInput formControlName="dbColumn" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Sequence</mat-label>
+          <input matInput type="number" formControlName="sequence" />
+        </mat-form-field>
+        <button mat-icon-button type="button" color="warn" (click)="removeRow(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    }
+
+    <button mat-stroked-button color="primary" type="button" (click)="addRow()">
+      <mat-icon>add</mat-icon>
+      Add Row
+    </button>
+  </div>
+</section>

@@ -1,0 +1,136 @@
+// ---------------------------------------------------------------------------
+// Card system
+// ---------------------------------------------------------------------------
+
+@use 'mixins' as mx;
+
+.card {
+  @include mx.card-surface(var(--shadow-sm));
+  @include mx.interactive-transition;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.card__title {
+  margin: 0;
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.card__subtitle {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-helper);
+  color: var(--color-text-muted);
+}
+
+.card__body {
+  flex: 1 1 auto;
+}
+
+.card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-divider);
+}
+
+.card--dashboard {
+  padding: var(--space-4);
+  box-shadow: var(--shadow-xs);
+  border-radius: var(--radius-md);
+}
+
+.card--form {
+  padding: var(--space-6);
+  box-shadow: var(--shadow-xs);
+}
+
+.card--summary {
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface-alt);
+  box-shadow: none;
+}
+
+.card--hover {
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-border-strong);
+    transform: translateY(-1px);
+  }
+}
+
+.card--shadow-xs {
+  box-shadow: var(--shadow-xs);
+}
+
+.card--shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.card--shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.card--shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.card--rounded-sm {
+  border-radius: var(--radius-sm);
+}
+
+.card--rounded-md {
+  border-radius: var(--radius-md);
+}
+
+.card--rounded-lg {
+  border-radius: var(--radius-lg);
+}
+
+.card--p-sm {
+  padding: var(--space-3);
+}
+
+.card--p-md {
+  padding: var(--space-5);
+}
+
+.card--p-lg {
+  padding: var(--space-8);
+}
+
+// Material card alignment
+.mat-mdc-card.ac-card {
+  @include mx.card-surface(var(--shadow-sm));
+  border-radius: var(--radius-md);
+}
+
+.mat-mdc-card.ac-card--dashboard {
+  border-radius: var(--radius-lg);
+}
+
+.mat-mdc-card.ac-card--form {
+  box-shadow: var(--shadow-xs);
+}
+
+.mat-mdc-card.ac-card--summary {
+  background: var(--color-surface-alt);
+  box-shadow: none;
+}

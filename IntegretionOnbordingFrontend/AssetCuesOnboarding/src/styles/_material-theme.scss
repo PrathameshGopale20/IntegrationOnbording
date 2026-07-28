@@ -1,0 +1,38 @@
+// ---------------------------------------------------------------------------
+// Angular Material enterprise theme
+// Primary: Blue · Tertiary: Violet (M3 closest equivalent to Indigo)
+// Semantic indigo secondary is provided via CSS tokens in _colors.scss
+// ---------------------------------------------------------------------------
+
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$blue-palette,
+        tertiary: mat.$violet-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+
+  --mat-sys-surface: var(--color-surface);
+  --mat-sys-surface-container: var(--color-surface);
+  --mat-sys-surface-container-low: var(--color-surface-alt);
+  --mat-sys-background: var(--color-background);
+  --mat-sys-on-surface: var(--color-text);
+  --mat-sys-on-surface-variant: var(--color-text-muted);
+  --mat-sys-outline: var(--color-border);
+  --mat-sys-outline-variant: var(--color-divider);
+  --mat-sys-error: var(--color-danger);
+  --mat-sys-on-error: var(--color-danger-contrast);
+}
+
+body {
+  color-scheme: light;
+  background: var(--color-background);
+  color: var(--color-text);
+}

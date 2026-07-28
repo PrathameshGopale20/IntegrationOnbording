@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+
+.app-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  min-height: var(--shell-footer-height);
+  padding: 8px 20px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+}
+
+.app-footer__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.app-footer__dot {
+  opacity: 0.55;
+}
+
+.app-footer__copy {
+  letter-spacing: 0.01em;
+}

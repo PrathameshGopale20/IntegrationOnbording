@@ -1,0 +1,54 @@
+<section class="step-panel" [formGroup]="formGroup">
+  <header class="step-panel__header">
+    <div class="step-panel__header-icon" aria-hidden="true">
+      <mat-icon>schedule</mat-icon>
+    </div>
+    <div>
+      <h2 class="step-panel__title">{{ pageTitle }}</h2>
+      <p class="step-panel__subtitle">{{ pageSubtitle }}</p>
+    </div>
+  </header>
+
+  <div class="step-panel__card">
+    <div class="scheduler-grid">
+      <mat-form-field appearance="outline" class="scheduler-grid__full">
+        <mat-label>Frequency</mat-label>
+        <input matInput formControlName="frequency" placeholder="e.g. 1640" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Start Time</mat-label>
+        <input matInput formControlName="startTime" placeholder="8:00:00" />
+        <mat-icon matSuffix>schedule</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>End Time</mat-label>
+        <input matInput formControlName="endTime" placeholder="6:00:00" />
+        <mat-icon matSuffix>schedule</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="scheduler-days">
+      <span class="scheduler-days__label">Selected Days</span>
+      <div class="scheduler-days__list">
+        @for (label of dayLabels; track label; let i = $index) {
+          <button
+            type="button"
+            class="scheduler-days__chip"
+            [class.scheduler-days__chip--active]="dayControl(i).value"
+            (click)="toggleDay(i)"
+          >
+            {{ label }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline" class="scheduler-grid__full">
+      <mat-label>Parameters</mat-label>
+      <textarea matInput rows="4" formControlName="parameters"></textarea>
+      <mat-icon matSuffix>data_object</mat-icon>
+    </mat-form-field>
+  </div>
+</section>

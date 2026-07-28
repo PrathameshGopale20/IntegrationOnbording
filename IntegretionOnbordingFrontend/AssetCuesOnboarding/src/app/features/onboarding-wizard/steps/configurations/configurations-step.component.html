@@ -1,0 +1,49 @@
+<section class="step-panel" [formGroup]="formGroup">
+  <header class="step-panel__header">
+    <div class="step-panel__header-icon" aria-hidden="true">
+      <mat-icon>tune</mat-icon>
+    </div>
+    <div>
+      <h2 class="step-panel__title">{{ pageTitle }}</h2>
+      <p class="step-panel__subtitle">{{ pageSubtitle }}</p>
+    </div>
+  </header>
+
+  <div class="config-grid" formArrayName="items">
+    @for (ctrl of items.controls; track $index; let i = $index) {
+      <article class="config-card" [formGroupName]="i">
+        <div class="config-card__top">
+          <div>
+            <h3>{{ itemGroup(i).get('label')?.value }}</h3>
+            <p>{{ itemGroup(i).get('description')?.value }}</p>
+          </div>
+          <mat-slide-toggle formControlName="enabled" color="primary"></mat-slide-toggle>
+        </div>
+        @if (itemGroup(i).get('hasValue')?.value) {
+          <mat-form-field appearance="outline" class="config-card__value">
+            <mat-label>Value</mat-label>
+            <input matInput formControlName="value" />
+          </mat-form-field>
+        }
+      </article>
+    }
+  </div>
+
+  @if (assetClasses.length > 0) {
+    <div class="step-panel__card" formArrayName="assetClasses">
+      <h3 class="step-panel__section-title">Imported Asset Classes</h3>
+      <div class="asset-table__head">
+        <span>Code</span>
+        <span>Asset Class</span>
+        <span>Mode</span>
+      </div>
+      @for (ctrl of assetClasses.controls; track $index; let i = $index) {
+        <div class="asset-table__row" [formGroupName]="i">
+          <span>{{ assetClassGroup(i).get('assetClassCode')?.value }}</span>
+          <span>{{ assetClassGroup(i).get('assetClass')?.value }}</span>
+          <span>{{ assetClassGroup(i).get('assetClassMode')?.value }}</span>
+        </div>
+      }
+    </div>
+  }
+</section>

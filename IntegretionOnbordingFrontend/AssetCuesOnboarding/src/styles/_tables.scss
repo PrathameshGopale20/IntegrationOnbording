@@ -1,0 +1,137 @@
+// ---------------------------------------------------------------------------
+// Table system
+// ---------------------------------------------------------------------------
+
+@use 'mixins' as mx;
+@use 'breakpoints' as bp;
+
+.table-shell {
+  @include mx.card-surface(var(--shadow-xs));
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.table-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-divider);
+  background: var(--color-surface);
+}
+
+@include bp.tablet-up {
+  .table-toolbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.table-search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  width: 100%;
+  max-width: 360px;
+}
+
+.table-container {
+  width: 100%;
+  overflow: auto;
+}
+
+.table,
+table.ac-table,
+.mat-mdc-table.ac-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--font-size-table);
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.table thead th,
+.ac-table .mat-mdc-header-cell {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-base);
+  background: var(--color-surface-alt);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.table tbody td,
+.ac-table .mat-mdc-cell {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-divider);
+  vertical-align: middle;
+}
+
+.table tbody tr,
+.ac-table .mat-mdc-row {
+  @include mx.interactive-transition;
+  background: var(--color-surface);
+}
+
+.table--hover tbody tr:hover,
+.ac-table--hover .mat-mdc-row:hover {
+  background: var(--shell-nav-hover-bg);
+}
+
+.table--striped tbody tr:nth-child(even),
+.ac-table--striped .mat-mdc-row:nth-child(even) {
+  background: var(--color-surface-alt);
+}
+
+.table tbody tr.is-selected,
+.table--selected tbody tr.selected,
+.ac-table .mat-mdc-row.ac-row--selected {
+  background: var(--color-primary-light);
+}
+
+.table-pagination,
+.table-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--color-divider);
+  background: var(--color-surface);
+}
+
+.table-empty,
+.ac-table-empty {
+  @include mx.flex-center;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 160px;
+  padding: var(--space-6);
+  text-align: center;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+}
+
+.table-empty__title {
+  margin: 0;
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.table-empty__description {
+  margin: 0;
+  max-width: 28rem;
+  font-size: var(--font-size-helper);
+}

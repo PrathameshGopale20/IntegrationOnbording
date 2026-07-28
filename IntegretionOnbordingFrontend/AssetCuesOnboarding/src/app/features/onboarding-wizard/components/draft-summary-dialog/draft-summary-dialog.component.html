@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Draft saved — filled details</h2>
+
+<mat-dialog-content class="draft-summary">
+  <p class="draft-summary__intro">
+    Draft for <strong>{{ data.customerName || 'Untitled customer' }}</strong>
+    @if (data.customerId) {
+      <span> (ID: {{ data.customerId }})</span>
+    }
+    at step <strong>{{ data.currentStep }}</strong>.
+  </p>
+
+  @for (section of data.sections; track section.title) {
+    <section class="draft-summary__section">
+      <h3 class="draft-summary__section-title">{{ section.title }}</h3>
+
+      @if (section.fields.length === 0) {
+        <p class="draft-summary__empty">No details filled yet.</p>
+      } @else {
+        <dl class="draft-summary__list">
+          @for (field of section.fields; track field.label) {
+            <div class="draft-summary__row">
+              <dt>{{ field.label }}</dt>
+              <dd>{{ field.value }}</dd>
+            </div>
+          }
+        </dl>
+      }
+    </section>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" (click)="onContinueEditing()">Continue Editing</button>
+  <button mat-flat-button color="primary" type="button" (click)="onGoToDashboard()">
+    Back to Dashboard
+  </button>
+</mat-dialog-actions>

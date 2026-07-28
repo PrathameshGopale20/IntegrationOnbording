@@ -1,0 +1,84 @@
+// ---------------------------------------------------------------------------
+// Breakpoints — values + responsive mixins
+// ---------------------------------------------------------------------------
+
+$breakpoint-mobile: 0;
+$breakpoint-tablet: 768px;
+$breakpoint-laptop: 1024px;
+$breakpoint-desktop: 1280px;
+$breakpoint-desktop-hd: 1366px;
+$breakpoint-desktop-wide: 1600px;
+$breakpoint-large-desktop: 1440px;
+$breakpoint-fhd: 1920px;
+
+@mixin mobile-up {
+  @media (min-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media (min-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+@mixin laptop-up {
+  @media (min-width: $breakpoint-laptop) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: $breakpoint-desktop) {
+    @content;
+  }
+}
+
+@mixin desktop-hd-up {
+  @media (min-width: $breakpoint-desktop-hd) {
+    @content;
+  }
+}
+
+@mixin desktop-wide-up {
+  @media (min-width: $breakpoint-desktop-wide) {
+    @content;
+  }
+}
+
+@mixin large-desktop-up {
+  @media (min-width: $breakpoint-large-desktop) {
+    @content;
+  }
+}
+
+@mixin fhd-up {
+  @media (min-width: $breakpoint-fhd) {
+    @content;
+  }
+}
+
+@mixin mobile-only {
+  @media (max-width: ($breakpoint-tablet - 0.02px)) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @media (min-width: $breakpoint-tablet) and (max-width: ($breakpoint-laptop - 0.02px)) {
+    @content;
+  }
+}
+
+@mixin laptop-down {
+  @media (max-width: ($breakpoint-laptop - 0.02px)) {
+    @content;
+  }
+}
+
+@mixin desktop-down {
+  @media (max-width: ($breakpoint-desktop - 0.02px)) {
+    @content;
+  }
+}

@@ -1,0 +1,104 @@
+<mat-toolbar class="app-header" color="primary">
+  <button
+    mat-icon-button
+    type="button"
+    class="app-header__menu-toggle"
+    [attr.aria-label]="isCompactViewport() ? 'Open navigation menu' : 'Toggle navigation rail'"
+    (click)="onToggleMenu()"
+  >
+    <mat-icon>{{ isCompactViewport() ? 'menu' : isRailCollapsed() ? 'dock_to_right' : 'dock_to_left' }}</mat-icon>
+  </button>
+
+  <div class="app-header__brand">
+    <img class="app-header__logo" [src]="logoSrc" [alt]="companyName + ' logo'" width="32" height="32" />
+    <div class="app-header__titles">
+      <span class="app-header__company">{{ companyName }}</span>
+      <span class="app-header__app-name">{{ appName }}</span>
+    </div>
+  </div>
+
+  <span
+    class="app-header__env"
+    [class.app-header__env--development]="environmentName === 'Development'"
+    [class.app-header__env--uat]="environmentName === 'UAT'"
+    [class.app-header__env--production]="environmentName === 'Production'"
+  >
+    {{ environmentName }}
+  </span>
+
+  <nav class="app-header__breadcrumbs" aria-label="Breadcrumb">
+    @for (crumb of breadcrumbs(); track crumb.url; let last = $last) {
+      @if (!last) {
+        <a class="app-header__crumb" [routerLink]="crumb.url">{{ crumb.label }}</a>
+        <mat-icon class="app-header__crumb-sep" aria-hidden="true">chevron_right</mat-icon>
+      } @else {
+        <span class="app-header__crumb app-header__crumb--current" aria-current="page">{{
+          crumb.label
+        }}</span>
+      }
+    }
+  </nav>
+
+  <span class="app-header__spacer"></span>
+
+  <button
+    mat-icon-button
+    type="button"
+    class="app-header__action"
+    aria-label="Notifications"
+    [matMenuTriggerFor]="notificationMenu"
+  >
+    <mat-icon matBadge="0" matBadgeSize="small" matBadgeColor="accent" [matBadgeHidden]="true"
+      >notifications_none</mat-icon
+    >
+  </button>
+
+  <button
+    mat-icon-button
+    type="button"
+    class="app-header__action"
+    aria-label="Help"
+    [matMenuTriggerFor]="helpMenu"
+  >
+    <mat-icon>help_outline</mat-icon>
+  </button>
+
+  <button
+    mat-button
+    type="button"
+    class="app-header__user"
+    [matMenuTriggerFor]="profileMenu"
+    aria-label="Account menu"
+  >
+    <span class="app-header__avatar" aria-hidden="true">
+      <mat-icon>person</mat-icon>
+    </span>
+    <span class="app-header__user-label">Account</span>
+    <mat-icon class="app-header__user-caret" aria-hidden="true">expand_more</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-menu #notificationMenu="matMenu" xPosition="before">
+  <div class="app-header__menu-panel" (click)="$event.stopPropagation()">
+    <p class="app-header__menu-title">Notifications</p>
+    <p class="app-header__menu-empty">No notifications</p>
+  </div>
+</mat-menu>
+
+<mat-menu #helpMenu="matMenu" xPosition="before">
+  <div class="app-header__menu-panel" (click)="$event.stopPropagation()">
+    <p class="app-header__menu-title">Help</p>
+  </div>
+</mat-menu>
+
+<mat-menu #profileMenu="matMenu" xPosition="before">
+  <button mat-menu-item type="button" disabled>
+    <mat-icon>manage_accounts</mat-icon>
+    <span>Profile</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item type="button" disabled>
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>

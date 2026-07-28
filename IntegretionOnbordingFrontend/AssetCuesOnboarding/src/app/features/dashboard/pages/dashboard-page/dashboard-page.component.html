@@ -1,0 +1,312 @@
+<section class="dash page-container">
+  <header class="dash__hero">
+    <div class="dash__hero-text">
+      <div class="dash__title-row">
+        <span class="dash__title-icon" aria-hidden="true">
+          <mat-icon>hub</mat-icon>
+        </span>
+        <div>
+          <h1 class="dash__title">{{ pageTitle }}</h1>
+          <p class="dash__subtitle">{{ pageSubtitle }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash__hero-actions">
+      <button mat-flat-button color="primary" type="button" (click)="onNewCustomer()">
+        <mat-icon>add</mat-icon>
+        New Customer
+      </button>
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="isImporting"
+        (click)="onImportExisting()"
+      >
+        <mat-icon>upload_file</mat-icon>
+        Import Existing Customer
+      </button>
+      <button
+        mat-stroked-button
+        type="button"
+        matTooltip="Refresh sessions"
+        (click)="onRefresh()"
+      >
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+    </div>
+
+    <input
+      #importFileInput
+      type="file"
+      hidden
+      accept=".csv,.sql,.txt,text/csv,text/plain,application/sql"
+      (change)="onImportFileSelected($event)"
+    />
+  </header>
+
+  @if (isLoading || isImporting) {
+    <mat-progress-bar mode="indeterminate" class="dash__loading"></mat-progress-bar>
+  }
+
+  <section class="dash__summary" aria-label="Session summary">
+    @for (card of summaryCards; track card.key) {
+      <button
+        type="button"
+        class="dash-card dash-card--{{ card.tone }}"
+        (click)="onSummaryCardClick(card)"
+      >
+        <span class="dash-card__icon" aria-hidden="true">
+          <mat-icon>{{ card.icon }}</mat-icon>
+        </span>
+        <div class="dash-card__body">
+          <span class="dash-card__count">{{ card.count }}</span>
+          <span class="dash-card__label">{{ card.label }}</span>
+          <span class="dash-card__subtitle">{{ card.subtitle }}</span>
+        </div>
+      </button>
+    }
+  </section>
+
+  <mat-card class="dash__panel">
+    <form class="dash__filters" [formGroup]="filterForm" (ngSubmit)="onSearch()">
+      <mat-form-field appearance="outline" class="dash__filter dash__filter--search" subscriptSizing="dynamic">
+        <mat-label>Search Customer</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput formControlName="search" placeholder="Name, ID, company..." />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dash__filter" subscriptSizing="dynamic">
+        <mat-label>Integration Type</mat-label>
+        <mat-select formControlName="integrationType">
+          @for (option of integrationTypeOptions; track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dash__filter" subscriptSizing="dynamic">
+        <mat-label>Application</mat-label>
+        <mat-select formControlName="application">
+          @for (option of applicationOptions; track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dash__filter" subscriptSizing="dynamic">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          @for (option of statusOptions; track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dash__filter" subscriptSizing="dynamic">
+        <mat-label>Current Step</mat-label>
+        <mat-select formControlName="currentStep">
+          <mat-option value="All">All</mat-option>
+          @for (option of stepOptions; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dash__filter" subscriptSizing="dynamic">
+        <mat-label>Created Date</mat-label>
+        <input matInput [matDatepicker]="createdPicker" formControlName="createdDate" />
+        <mat-datepicker-toggle matIconSuffix [for]="createdPicker"></mat-datepicker-toggle>
+        <mat-datepicker #createdPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dash__filter" subscriptSizing="dynamic">
+        <mat-label>Updated Date</mat-label>
+        <input matInput [matDatepicker]="updatedPicker" formControlName="updatedDate" />
+        <mat-datepicker-toggle matIconSuffix [for]="updatedPicker"></mat-datepicker-toggle>
+        <mat-datepicker #updatedPicker></mat-datepicker>
+      </mat-form-field>
+
+      <div class="dash__filter-actions">
+        <button mat-flat-button color="primary" type="submit">
+          <mat-icon>search</mat-icon>
+          Search
+        </button>
+        <button mat-stroked-button type="button" (click)="onClearFilters()">
+          <mat-icon>filter_alt_off</mat-icon>
+          Clear
+        </button>
+        <button mat-stroked-button type="button" (click)="onRefresh()">
+          <mat-icon>refresh</mat-icon>
+          Refresh
+        </button>
+      </div>
+    </form>
+
+    @if (!hasSessions) {
+      <div class="table-empty dash__empty">
+        <div class="dash__empty-art" aria-hidden="true">
+          <mat-icon>inbox</mat-icon>
+        </div>
+        <p class="table-empty__title">No customer onboarding sessions found.</p>
+        <p class="table-empty__description">
+          Start a new customer onboarding session or import an existing customer template.
+        </p>
+        <button mat-flat-button color="primary" type="button" (click)="onNewCustomer()">
+          <mat-icon>add</mat-icon>
+          Create New Customer
+        </button>
+      </div>
+    } @else {
+      <div class="dash__table-shell table-container">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          matSort
+          class="ac-table ac-table--hover ac-table--striped dash__table"
+        >
+          <ng-container matColumnDef="customerId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer ID</th>
+            <td mat-cell *matCellDef="let row">{{ row.customerId }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="customerName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer Name</th>
+            <td mat-cell *matCellDef="let row">
+              <div class="dash__customer">
+                <span class="dash__avatar" aria-hidden="true">{{ customerInitial(row.customerName) }}</span>
+                <div class="dash__customer-meta">
+                  <strong>{{ row.customerName }}</strong>
+                  <div class="dash__progress" [attr.aria-label]="row.currentStepIndex + 1 + ' of ' + row.totalSteps + ' steps'">
+                    <mat-progress-bar mode="determinate" [value]="row.progressPercent"></mat-progress-bar>
+                    <span>{{ row.currentStepIndex + 1 }} / {{ row.totalSteps }} Steps</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="company">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Company</th>
+            <td mat-cell *matCellDef="let row">{{ row.company }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="integrationType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Integration Type</th>
+            <td mat-cell *matCellDef="let row">
+              <mat-chip-set>
+                <mat-chip class="dash__type-chip" disableRipple>{{ row.integrationType }}</mat-chip>
+              </mat-chip-set>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="application">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Application</th>
+            <td mat-cell *matCellDef="let row">{{ row.application }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="currentStep">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Current Step</th>
+            <td mat-cell *matCellDef="let row">
+              <mat-chip-set>
+                <mat-chip class="dash__step-chip" disableRipple>{{ row.currentStepLabel }}</mat-chip>
+              </mat-chip-set>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let row">
+              <span [class]="statusClass(row.status)">
+                <span class="dash-status__dot" aria-hidden="true"></span>
+                {{ row.status }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="createdDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
+            <td mat-cell *matCellDef="let row">{{ formatDate(row.createdDate) }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="updatedDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated Date</th>
+            <td mat-cell *matCellDef="let row">{{ formatDate(row.updatedDate) }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="lastModifiedBy">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Modified By</th>
+            <td mat-cell *matCellDef="let row">{{ row.lastModifiedBy }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let row">
+              <div class="dash__actions">
+                <button mat-icon-button type="button" matTooltip="Resume" aria-label="Resume" (click)="onResume(row)">
+                  <mat-icon>play_circle</mat-icon>
+                </button>
+                <button mat-icon-button type="button" matTooltip="View" aria-label="View" (click)="onView(row)">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button type="button" matTooltip="Edit" aria-label="Edit" (click)="onEdit(row)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Generate SQL"
+                  aria-label="Generate SQL"
+                  (click)="onGenerateSql(row)"
+                >
+                  <mat-icon>terminal</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Duplicate"
+                  aria-label="Duplicate"
+                  (click)="onDuplicate(row)"
+                >
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  type="button"
+                  color="warn"
+                  matTooltip="Delete"
+                  aria-label="Delete"
+                  (click)="onDelete(row)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="dash__no-data-row" *matNoDataRow>
+            <td [attr.colspan]="displayedColumns.length">
+              <div class="table-empty">
+                <mat-icon>search_off</mat-icon>
+                <p class="table-empty__title">No sessions match your filters</p>
+                <p class="table-empty__description">Try clearing filters or adjusting your search.</p>
+                <button mat-stroked-button type="button" (click)="onClearFilters()">Clear Filters</button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <mat-paginator
+        class="dash__paginator"
+        [pageSizeOptions]="[5, 10, 25, 50]"
+        [pageSize]="10"
+        showFirstLastButtons
+      ></mat-paginator>
+    }
+  </mat-card>
+</section>

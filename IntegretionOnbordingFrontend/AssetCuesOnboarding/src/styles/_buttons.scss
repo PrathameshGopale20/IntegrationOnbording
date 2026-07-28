@@ -1,0 +1,209 @@
+// ---------------------------------------------------------------------------
+// Button system — works with native buttons and Angular Material buttons
+// ---------------------------------------------------------------------------
+
+@use 'mixins' as mx;
+
+%btn-base {
+  @include mx.interactive-transition;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 36px;
+  padding: 0 var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+
+  &:focus-visible {
+    @include mx.focus-ring;
+  }
+
+  &:disabled,
+  &.is-disabled,
+  &.btn--disabled {
+    opacity: var(--opacity-disabled);
+    cursor: not-allowed;
+    box-shadow: none;
+    pointer-events: none;
+  }
+}
+
+.btn {
+  @extend %btn-base;
+}
+
+.btn--primary,
+.btn-primary {
+  @extend %btn-base;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+
+  &:hover {
+    background: var(--color-primary-hover);
+  }
+
+  &:active {
+    background: var(--color-primary-active);
+  }
+}
+
+.btn--secondary,
+.btn-secondary {
+  @extend %btn-base;
+  background: var(--color-secondary);
+  color: var(--color-secondary-contrast);
+
+  &:hover {
+    background: var(--color-secondary-hover);
+  }
+
+  &:active {
+    background: var(--color-secondary-active);
+  }
+}
+
+.btn--success,
+.btn-success {
+  @extend %btn-base;
+  background: var(--color-success);
+  color: var(--color-success-contrast);
+
+  &:hover {
+    background: var(--color-success-hover);
+  }
+}
+
+.btn--danger,
+.btn-danger {
+  @extend %btn-base;
+  background: var(--color-danger);
+  color: var(--color-danger-contrast);
+
+  &:hover {
+    background: var(--color-danger-hover);
+  }
+}
+
+.btn--warning,
+.btn-warning {
+  @extend %btn-base;
+  background: var(--color-warning);
+  color: var(--color-warning-contrast);
+
+  &:hover {
+    background: var(--color-warning-hover);
+  }
+}
+
+.btn--outline,
+.btn-outline {
+  @extend %btn-base;
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+
+  &:hover {
+    background: var(--color-primary-light);
+  }
+
+  &:active {
+    background: color-mix(in srgb, var(--color-primary) 16%, transparent);
+  }
+}
+
+.btn--icon,
+.btn-icon {
+  @extend %btn-base;
+  width: 40px;
+  min-width: 40px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+
+  &:hover {
+    background: rgba(27, 36, 48, var(--opacity-hover));
+    color: var(--color-text);
+  }
+}
+
+.btn--loading,
+.btn.is-loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    color: var(--color-primary-contrast);
+    animation: ac-btn-spin var(--transition-slow) linear infinite;
+  }
+}
+
+.btn--outline.btn--loading::after,
+.btn--icon.btn--loading::after {
+  border-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  border-top-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+@keyframes ac-btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Material button tone helpers
+.mat-mdc-button.ac-tone-success,
+.mat-mdc-unelevated-button.ac-tone-success,
+.mat-mdc-raised-button.ac-tone-success,
+.mat-mdc-outlined-button.ac-tone-success {
+  --mdc-filled-button-container-color: var(--color-success);
+  --mdc-filled-button-label-text-color: var(--color-success-contrast);
+  --mdc-protected-button-container-color: var(--color-success);
+  --mdc-protected-button-label-text-color: var(--color-success-contrast);
+  --mdc-outlined-button-label-text-color: var(--color-success);
+  --mdc-outlined-button-outline-color: var(--color-success);
+}
+
+.mat-mdc-button.ac-tone-danger,
+.mat-mdc-unelevated-button.ac-tone-danger,
+.mat-mdc-raised-button.ac-tone-danger,
+.mat-mdc-outlined-button.ac-tone-danger {
+  --mdc-filled-button-container-color: var(--color-danger);
+  --mdc-filled-button-label-text-color: var(--color-danger-contrast);
+  --mdc-protected-button-container-color: var(--color-danger);
+  --mdc-protected-button-label-text-color: var(--color-danger-contrast);
+  --mdc-outlined-button-label-text-color: var(--color-danger);
+  --mdc-outlined-button-outline-color: var(--color-danger);
+}
+
+.mat-mdc-button.ac-tone-warning,
+.mat-mdc-unelevated-button.ac-tone-warning,
+.mat-mdc-raised-button.ac-tone-warning,
+.mat-mdc-outlined-button.ac-tone-warning {
+  --mdc-filled-button-container-color: var(--color-warning);
+  --mdc-filled-button-label-text-color: var(--color-warning-contrast);
+  --mdc-protected-button-container-color: var(--color-warning);
+  --mdc-protected-button-label-text-color: var(--color-warning-contrast);
+  --mdc-outlined-button-label-text-color: var(--color-warning);
+  --mdc-outlined-button-outline-color: var(--color-warning);
+}

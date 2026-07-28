@@ -1,0 +1,120 @@
+:host {
+  display: block;
+}
+
+.companies-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.companies-step__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.companies-step__header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.companies-step__title {
+  margin: 0 0 var(--space-1);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.companies-step__subtitle {
+  margin: 0;
+  font-size: var(--font-size-body-sm);
+  color: var(--color-text-muted);
+}
+
+.companies-step__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-xs);
+  overflow-x: auto;
+}
+
+.companies-step__table-head {
+  display: none;
+  grid-template-columns: 1fr 1.4fr 1fr 0.9fr 1.1fr 1.1fr 0.7fr 48px;
+  gap: var(--space-2);
+  padding: 0 var(--space-1);
+  font-size: 0.68rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.companies-step__table-head em {
+  color: var(--color-danger);
+  font-style: normal;
+}
+
+.companies-step__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+  align-items: start;
+  padding: var(--space-3);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+}
+
+.companies-step__field {
+  width: 100%;
+}
+
+.companies-step__active {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding-left: var(--space-1);
+}
+
+.companies-step__remove {
+  color: var(--color-text-muted);
+  justify-self: start;
+}
+
+.companies-step__add {
+  align-self: flex-start;
+  margin-top: var(--space-2);
+}
+
+@media (min-width: 1200px) {
+  .companies-step__table-head {
+    display: grid;
+  }
+
+  .companies-step__row {
+    grid-template-columns: 1fr 1.4fr 1fr 0.9fr 1.1fr 1.1fr 0.7fr 48px;
+    align-items: center;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .companies-step__remove {
+    justify-self: center;
+  }
+}

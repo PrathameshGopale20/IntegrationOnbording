@@ -1,0 +1,144 @@
+<section class="step-panel ep-step" [formGroup]="formGroup">
+  <header class="step-panel__header">
+    <div class="step-panel__header-icon" aria-hidden="true">
+      <mat-icon>hub</mat-icon>
+    </div>
+    <div>
+      <h2 class="step-panel__title">{{ pageTitle }}</h2>
+      <p class="step-panel__subtitle">{{ pageSubtitle }}</p>
+    </div>
+  </header>
+
+  <mat-card class="ep-step__card">
+    <div class="ep-step__notice" role="note">
+      <mat-icon aria-hidden="true">info</mat-icon>
+      <p>
+        {{ controlNotice }}
+        To remove an endpoint, disable the corresponding Transaction.
+      </p>
+    </div>
+
+    @if (!hasEndpoints) {
+      <div class="table-empty ep-step__empty">
+        <mat-icon>link_off</mat-icon>
+        <p class="table-empty__title">No endpoints yet</p>
+        <p class="table-empty__description">
+          Enable at least one Transaction on the previous step to generate endpoints automatically.
+        </p>
+      </div>
+    } @else {
+      <div class="ep-step__table-shell table-container" formArrayName="endpoints">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          class="ac-table ac-table--hover ac-table--striped ep-step__table"
+        >
+          <ng-container matColumnDef="transaction">
+            <th mat-header-cell *matHeaderCellDef>Transaction</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <div class="ep-step__txn">
+                <strong>{{ row.get('transactionLabel')?.value || '—' }}</strong>
+                <code>{{ row.get('transactionCode')?.value || '—' }}</code>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="endpointType">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <span
+                class="type-chip"
+                [class.type-chip--inbound]="row.get('endpointType')?.value === 'Inbound'"
+                [class.type-chip--outbound]="row.get('endpointType')?.value === 'Outbound'"
+                [class.type-chip--master]="row.get('endpointType')?.value === 'Master'"
+              >
+                {{ row.get('endpointType')?.value || '—' }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="endpointUrl">
+            <th mat-header-cell *matHeaderCellDef>Endpoint URL</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <mat-form-field appearance="outline" class="ep-step__field" subscriptSizing="dynamic">
+                <input matInput formControlName="endpointUrl" placeholder="https://..." />
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="assetcuesEndpoint">
+            <th mat-header-cell *matHeaderCellDef>AssetCues Endpoint</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <mat-form-field appearance="outline" class="ep-step__field" subscriptSizing="dynamic">
+                <input matInput formControlName="assetcuesEndpoint" placeholder="/api/..." />
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="authentication">
+            <th mat-header-cell *matHeaderCellDef>Authentication</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <mat-form-field appearance="outline" class="ep-step__field" subscriptSizing="dynamic">
+                <mat-select formControlName="authentication">
+                  @for (option of authOptions; track option) {
+                    <mat-option [value]="option">{{ option }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="payload">
+            <th mat-header-cell *matHeaderCellDef>Payload</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <mat-form-field appearance="outline" class="ep-step__field" subscriptSizing="dynamic">
+                <input matInput formControlName="payload" placeholder="{}" />
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="timeout">
+            <th mat-header-cell *matHeaderCellDef>Timeout</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <mat-form-field appearance="outline" class="ep-step__field ep-step__field--narrow" subscriptSizing="dynamic">
+                <input matInput type="number" formControlName="timeout" min="1" />
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="retryCount">
+            <th mat-header-cell *matHeaderCellDef>Retry</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <mat-form-field appearance="outline" class="ep-step__field ep-step__field--narrow" subscriptSizing="dynamic">
+                <input matInput type="number" formControlName="retryCount" min="0" />
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="headers">
+            <th mat-header-cell *matHeaderCellDef>Headers</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <mat-form-field appearance="outline" class="ep-step__field" subscriptSizing="dynamic">
+                <input matInput formControlName="headers" placeholder="{}" />
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let row">
+              <mat-chip-set>
+                <mat-chip class="ep-step__status-chip" disableRipple>
+                  {{ row.get('status')?.value || 'Enabled' }}
+                </mat-chip>
+              </mat-chip-set>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    }
+  </mat-card>
+</section>

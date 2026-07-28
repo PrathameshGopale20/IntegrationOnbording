@@ -1,0 +1,23 @@
+<div class="ac-dialog ac-dialog--delete">
+  <div class="ac-dialog__header">
+    <span class="ac-dialog__icon" aria-hidden="true">
+      <mat-icon>delete_forever</mat-icon>
+    </span>
+    <div>
+      <h2 class="ac-dialog__title">{{ data.title }}</h2>
+    </div>
+  </div>
+
+  <div class="ac-dialog__content">
+    <p>{{ data.message }}</p>
+  </div>
+
+  <div class="ac-dialog__actions">
+    <button mat-stroked-button type="button" (click)="onCancel()">
+      {{ data.cancelLabel || 'Cancel' }}
+    </button>
+    <button mat-flat-button color="warn" type="button" (click)="onConfirm()">
+      {{ data.confirmLabel || 'Delete' }}
+    </button>
+  </div>
+</div>

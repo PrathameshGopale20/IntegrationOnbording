@@ -1,0 +1,76 @@
+@use '../../styles/step-panel.shared';
+
+.tx-step__card {
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition:
+    box-shadow var(--transition-base) var(--easing-standard),
+    transform var(--transition-base) var(--easing-standard);
+}
+
+.tx-step__card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.tx-step__loading {
+  display: block;
+}
+
+.tx-step__table-shell {
+  max-height: min(62vh, 640px);
+}
+
+.tx-step__table {
+  width: 100%;
+}
+
+.tx-step__name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.tx-step__code {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-caption);
+  color: var(--color-text-secondary);
+  background: var(--color-surface-alt);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+}
+
+.tx-step__status-chip {
+  --mdc-chip-label-text-size: var(--font-size-caption);
+  min-height: 24px;
+  font-weight: var(--font-weight-medium);
+}
+
+.tx-step__status-chip--on {
+  --mdc-chip-outline-color: transparent;
+  background: var(--color-success-light) !important;
+  color: var(--color-success) !important;
+}
+
+.tx-step__status-chip--off {
+  --mdc-chip-outline-color: transparent;
+  background: var(--color-surface-alt) !important;
+  color: var(--color-text-muted) !important;
+}
+
+.tx-step__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.tx-step__empty-row td {
+  padding: 0;
+  border-bottom: none;
+}
+
+@media (max-width: 900px) {
+  .tx-step__table-shell {
+    max-height: none;
+  }
+}

@@ -1,0 +1,104 @@
+<section class="companies-step" [formGroup]="formGroup">
+  <header class="companies-step__header">
+    <div class="companies-step__header-icon" aria-hidden="true">
+      <mat-icon>apartment</mat-icon>
+    </div>
+    <div>
+      <h2 class="companies-step__title">{{ pageTitle }}</h2>
+      <p class="companies-step__subtitle">{{ pageSubtitle }}</p>
+    </div>
+  </header>
+
+  <div class="companies-step__panel" formArrayName="companies">
+    <div class="companies-step__table-head" aria-hidden="true">
+      <span>Company ID <em>*</em></span>
+      <span>Company Name <em>*</em></span>
+      <span>Company Code <em>*</em></span>
+      <span>File Ext.</span>
+      <span>Delimiter</span>
+      <span>Qualifier</span>
+      <span>Active</span>
+      <span></span>
+    </div>
+
+    @for (company of companies.controls; track $index; let index = $index) {
+      <div class="companies-step__row" [formGroupName]="index">
+        <mat-form-field appearance="outline" class="companies-step__field">
+          <mat-label>Company ID</mat-label>
+          <input matInput formControlName="companyId" placeholder="Company ID" maxlength="10" />
+          @if (showError(companyGroup(index), 'companyId', 'required') || showError(companyGroup(index), 'companyId', 'whitespace')) {
+            <mat-error>Required</mat-error>
+          } @else if (showError(companyGroup(index), 'companyId', 'pattern')) {
+            <mat-error>Numeric only</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="companies-step__field">
+          <mat-label>Company Name</mat-label>
+          <input matInput formControlName="companyName" placeholder="Company Name" maxlength="255" />
+          @if (showError(companyGroup(index), 'companyName', 'required') || showError(companyGroup(index), 'companyName', 'whitespace')) {
+            <mat-error>Required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="companies-step__field">
+          <mat-label>Company Code</mat-label>
+          <input matInput formControlName="companyCode" placeholder="Company Code" maxlength="50" />
+          @if (showError(companyGroup(index), 'companyCode', 'required') || showError(companyGroup(index), 'companyCode', 'whitespace')) {
+            <mat-error>Required</mat-error>
+          } @else if (showError(companyGroup(index), 'companyCode', 'pattern')) {
+            <mat-error>Invalid code</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="companies-step__field">
+          <mat-label>File Ext.</mat-label>
+          <mat-select formControlName="fileExtension" placeholder="File Ext.">
+            @for (option of fileExtensionOptions; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="companies-step__field">
+          <mat-label>Delimiter</mat-label>
+          <mat-select formControlName="delimiter" placeholder="Delimiter">
+            @for (option of delimiterOptions; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="companies-step__field">
+          <mat-label>Qualifier</mat-label>
+          <mat-select formControlName="qualifier" placeholder="Qualifier">
+            @for (option of qualifierOptions; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <div class="companies-step__active">
+          <mat-slide-toggle formControlName="isActive" color="primary" aria-label="Active"></mat-slide-toggle>
+        </div>
+
+        <button
+          mat-icon-button
+          type="button"
+          class="companies-step__remove"
+          matTooltip="Remove company"
+          aria-label="Remove company"
+          [disabled]="!canRemove()"
+          (click)="removeCompany(index)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    }
+
+    <button mat-stroked-button color="primary" type="button" class="companies-step__add" (click)="addCompany()">
+      <mat-icon>add</mat-icon>
+      Add Company
+    </button>
+  </div>
+</section>

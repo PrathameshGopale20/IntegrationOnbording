@@ -1,0 +1,29 @@
+<div [class]="toneClass">
+  <div class="ac-dialog__header">
+    <span class="ac-dialog__icon" aria-hidden="true">
+      <mat-icon>{{ icon }}</mat-icon>
+    </span>
+    <div>
+      <h2 class="ac-dialog__title">{{ data.title }}</h2>
+    </div>
+  </div>
+
+  <div class="ac-dialog__content">
+    <p>{{ data.message }}</p>
+  </div>
+
+  <div class="ac-dialog__actions">
+    <button mat-stroked-button type="button" (click)="onCancel()">
+      {{ data.cancelLabel || 'Cancel' }}
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      [class.confirm-dialog__danger]="data.tone === 'delete' || data.tone === 'warning'"
+      (click)="onConfirm()"
+    >
+      {{ data.confirmLabel || 'Confirm' }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<section class="step-panel" [formGroup]="formGroup">
+  <header class="step-panel__header">
+    <div class="step-panel__header-icon" aria-hidden="true">
+      <mat-icon>account_tree</mat-icon>
+    </div>
+    <div>
+      <h2 class="step-panel__title">{{ pageTitle }}</h2>
+      <p class="step-panel__subtitle">{{ pageSubtitle }}</p>
+    </div>
+  </header>
+
+  <div class="step-panel__card" formArrayName="mappings">
+    <div class="map-table__head map-table__head--3">
+      <span>Master Name</span>
+      <span>Source Field</span>
+      <span>Target Field</span>
+      <span></span>
+    </div>
+
+    @for (ctrl of mappings.controls; track $index; let i = $index) {
+      <div class="map-table__row map-table__row--3" [formGroupName]="i">
+        <mat-form-field appearance="outline">
+          <mat-label>Master Name</mat-label>
+          <input matInput formControlName="masterName" placeholder="e.g. Location" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Source Field</mat-label>
+          <input matInput formControlName="sourceField" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Target Field</mat-label>
+          <input matInput formControlName="targetField" />
+        </mat-form-field>
+        <button mat-icon-button type="button" color="warn" (click)="removeRow(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    }
+
+    <button mat-stroked-button color="primary" type="button" (click)="addRow()">
+      <mat-icon>add</mat-icon>
+      Add Row
+    </button>
+  </div>
+</section>

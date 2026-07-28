@@ -1,0 +1,168 @@
+<section class="wizard-shell" [formGroup]="wizardForm">
+  <header class="wizard-shell__banner">
+    <div class="wizard-shell__banner-text">
+      <h1 class="wizard-shell__title">{{ pageTitle }}</h1>
+      <p class="wizard-shell__subtitle">{{ pageSubtitle }}</p>
+    </div>
+
+    <div class="wizard-shell__banner-actions">
+      <button
+        mat-stroked-button
+        type="button"
+        class="wizard-shell__import"
+        [disabled]="isImporting"
+        matTooltip="Upload .csv template or .sql integration script"
+        (click)="onImportExistingCustomer()"
+      >
+        <mat-icon>upload</mat-icon>
+        Import Existing Customer
+      </button>
+
+      <button
+        mat-icon-button
+        type="button"
+        class="wizard-shell__close"
+        matTooltip="Close"
+        aria-label="Close"
+        (click)="onCancel()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <input
+      #csvFileInput
+      type="file"
+      accept=".csv,.sql,text/csv,text/plain,application/sql,application/vnd.ms-excel"
+      hidden
+      (change)="onCsvFileSelected($event)"
+    />
+  </header>
+
+  <div class="wizard-shell__body page-container">
+    <mat-card class="wizard-shell__stepper-card">
+      <mat-horizontal-stepper
+        #wizardStepper
+        class="wizard-shell__stepper ac-stepper"
+        [linear]="false"
+        [selectedIndex]="navigation.currentStepIndex()"
+        (selectionChange)="onStepSelectionChange($event)"
+        animationDuration="280ms"
+        labelPosition="bottom"
+      >
+        @for (step of navigation.steps; track step.id; let i = $index) {
+          <mat-step
+            [label]="step.title"
+            [editable]="true"
+            [completed]="isStepCompleted(i)"
+          >
+            <div class="wizard-shell__step-panel ac-step-panel" [formGroupName]="step.id">
+              @if (step.id === basicDetailsStepId) {
+                <app-basic-details-step
+                  [formGroup]="asFormGroup(wizardForm.get(step.id))"
+                ></app-basic-details-step>
+              } @else if (step.id === companiesStepId) {
+                <app-companies-step
+                  [formGroup]="asFormGroup(wizardForm.get(step.id))"
+                ></app-companies-step>
+              } @else if (step.id === credentialsStepId) {
+                <app-credentials-step
+                  [formGroup]="asFormGroup(wizardForm.get(step.id))"
+                  [applicationId]="selectedApplicationId"
+                ></app-credentials-step>
+              } @else if (step.id === transactionsStepId) {
+                <app-transactions-step
+                  [formGroup]="asFormGroup(wizardForm.get(step.id))"
+                  [endpointsFormGroup]="asFormGroup(wizardForm.get(endpointsStepId))"
+                ></app-transactions-step>
+              } @else if (step.id === endpointsStepId) {
+                <app-endpoints-step
+                  [formGroup]="asFormGroup(wizardForm.get(step.id))"
+                ></app-endpoints-step>
+              } @else if (step.id === customerFieldsStepId) {
+                <app-customer-fields-step
+                  [formGroup]="asFormGroup(wizardForm.get(step.id))"
+                ></app-customer-fields-step>
+              } @else if (step.id === fieldMappingStepId) {
+                <app-field-mapping-step
+                  [formGroup]="asFormGroup(wizardForm.get(step.id))"
+                ></app-field-mapping-step>
+              } @else if (step.id === masterMappingStepId) {
+                <app-master-mapping-step
+                  [formGroup]="asFormGroup(wizardForm.get(step.id))"
+                ></app-master-mapping-step>
+              } @else if (step.id === configurationsStepId) {
+                <app-configurations-step
+                  [formGroup]="asFormGroup(wizardForm.get(step.id))"
+                ></app-configurations-step>
+              } @else if (step.id === schedulerStepId) {
+                <app-scheduler-step
+                  [formGroup]="asFormGroup(wizardForm.get(step.id))"
+                ></app-scheduler-step>
+              } @else if (step.id === reviewStepId) {
+                <app-review-step [model]="reviewModel"></app-review-step>
+              }
+            </div>
+          </mat-step>
+        }
+      </mat-horizontal-stepper>
+    </mat-card>
+  </div>
+
+  <footer class="wizard-shell__footer">
+    <div class="wizard-shell__footer-inner">
+      <div class="wizard-shell__footer-left">
+        @if (navigation.isFirstStep()) {
+          <button mat-stroked-button type="button" class="wizard-shell__cancel" (click)="onCancel()">
+            <mat-icon>close</mat-icon>
+            Cancel
+          </button>
+        } @else {
+          <button mat-stroked-button type="button" (click)="onPrevious()">
+            <mat-icon>chevron_left</mat-icon>
+            Previous
+          </button>
+        }
+
+        <button
+          mat-stroked-button
+          type="button"
+          class="wizard-shell__back-dashboard"
+          (click)="onBackToDashboard()"
+        >
+          <mat-icon>arrow_back</mat-icon>
+          Back to Dashboard
+        </button>
+      </div>
+
+      <div class="wizard-shell__footer-right">
+        <button mat-stroked-button type="button" (click)="onSaveDraft()">
+          <mat-icon>save</mat-icon>
+          Save Draft
+        </button>
+
+        @if (!navigation.isLastStep()) {
+          <button mat-flat-button color="primary" type="button" (click)="onNext()">
+            @if (navigation.isFirstStep()) {
+              Save &amp; Next
+            } @else {
+              Next
+            }
+            <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+          </button>
+        } @else {
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            [disabled]="isSubmitting"
+            (click)="onSubmit()"
+          >
+            <mat-icon>download</mat-icon>
+            {{ isSubmitting ? 'Generating...' : 'Submit' }}
+          </button>
+        }
+      </div>
+    </div>
+  </footer>
+</section>

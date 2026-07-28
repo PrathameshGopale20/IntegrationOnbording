@@ -1,0 +1,113 @@
+<section class="basic-details" [formGroup]="formGroup">
+  <header class="basic-details__header">
+    <div class="basic-details__header-icon" aria-hidden="true">
+      <mat-icon>business</mat-icon>
+    </div>
+    <div class="basic-details__header-text">
+      <h2 class="basic-details__title">{{ pageTitle }}</h2>
+      <p class="basic-details__subtitle">{{ pageSubtitle }}</p>
+    </div>
+  </header>
+
+  <div class="basic-details__panel">
+    <div class="basic-details__grid">
+      <mat-form-field appearance="outline" class="basic-details__field">
+        <mat-label>Customer ID</mat-label>
+        <input
+          matInput
+          formControlName="customerId"
+          placeholder="Enter customer ID"
+          maxlength="10"
+          inputmode="numeric"
+          autocomplete="off"
+        />
+        <span matTextSuffix class="basic-details__suffix" aria-hidden="true">#</span>
+        <mat-hint>Required. Maps to customerid.</mat-hint>
+        @if (showError('customerId', 'required') || showError('customerId', 'whitespace')) {
+          <mat-error>Customer ID is required.</mat-error>
+        } @else if (showError('customerId', 'pattern')) {
+          <mat-error>Customer ID must be numeric.</mat-error>
+        } @else if (showError('customerId', 'maxlength')) {
+          <mat-error>Customer ID cannot exceed 10 digits.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="basic-details__field">
+        <mat-label>Customer Name</mat-label>
+        <input
+          matInput
+          formControlName="customerName"
+          placeholder="Enter customer name"
+          maxlength="255"
+          autocomplete="organization"
+        />
+        <mat-icon matSuffix aria-hidden="true">apartment</mat-icon>
+        <mat-hint>Required. Maps to customername.</mat-hint>
+        @if (showError('customerName', 'required') || showError('customerName', 'whitespace')) {
+          <mat-error>Customer Name is required.</mat-error>
+        } @else if (showError('customerName', 'minlength')) {
+          <mat-error>Customer Name must be at least 2 characters.</mat-error>
+        } @else if (showError('customerName', 'maxlength')) {
+          <mat-error>Customer Name cannot exceed 255 characters.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="basic-details__field">
+        <mat-label>Tenant ID</mat-label>
+        <input
+          matInput
+          formControlName="tenantId"
+          placeholder="Enter tenant ID"
+          maxlength="20"
+          autocomplete="off"
+        />
+        <mat-icon matSuffix aria-hidden="true">domain_add</mat-icon>
+        <mat-hint>Required. Maps to tenantid (max 20).</mat-hint>
+        @if (showError('tenantId', 'required') || showError('tenantId', 'whitespace')) {
+          <mat-error>Tenant ID is required.</mat-error>
+        } @else if (showError('tenantId', 'pattern')) {
+          <mat-error>Tenant ID format is invalid.</mat-error>
+        } @else if (showError('tenantId', 'maxlength')) {
+          <mat-error>Tenant ID cannot exceed 20 characters.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="basic-details__field">
+        <mat-label>Integration Type</mat-label>
+        <mat-select formControlName="integrationTypeId" placeholder="Select integration type">
+          @for (option of integrationTypeOptions; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+        <mat-hint>Required. Maps to integrationtypeid.</mat-hint>
+        @if (showError('integrationTypeId', 'required')) {
+          <mat-error>Integration Type is required.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="basic-details__field">
+        <mat-label>Application</mat-label>
+        <mat-select formControlName="applicationId" placeholder="Select Integration Type First">
+          @for (option of filteredApplicationOptions; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+        <mat-hint>Select Integration Type First</mat-hint>
+        @if (showError('applicationId', 'required')) {
+          <mat-error>Application is required.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="basic-details__field ac-field-readonly">
+        <mat-label>Access Approach</mat-label>
+        <input matInput formControlName="accessApproach" placeholder="Auto-set" readonly />
+        <mat-icon matSuffix aria-hidden="true">hub</mat-icon>
+        <mat-hint>Auto-set based on selected Application</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="basic-details__enable">
+      <mat-slide-toggle formControlName="isEnabled" color="primary">Enable Integration</mat-slide-toggle>
+    </div>
+  </div>
+</section>

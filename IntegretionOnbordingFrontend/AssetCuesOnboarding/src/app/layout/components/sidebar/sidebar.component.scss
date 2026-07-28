@@ -1,0 +1,116 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.app-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  height: 100%;
+  padding: var(--space-3) var(--space-2) var(--space-4);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.app-sidebar__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.app-sidebar__group-label {
+  display: flex;
+  align-items: center;
+  min-height: 28px;
+  padding: var(--space-2) var(--space-3) var(--space-1);
+}
+
+.app-sidebar__group-text {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 160ms ease;
+}
+
+.app-sidebar__list {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.app-sidebar__item {
+  margin: 2px var(--space-1);
+  border-radius: var(--radius-md);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.app-sidebar__item:hover:not(.app-sidebar__item--disabled):not(.app-sidebar__item--active) {
+  background: var(--shell-nav-hover-bg);
+}
+
+.app-sidebar__item--active {
+  background: var(--shell-nav-active-bg);
+  color: var(--shell-nav-active-fg);
+  box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+.app-sidebar__item--active .app-sidebar__icon,
+.app-sidebar__item--active .app-sidebar__label {
+  color: var(--shell-nav-active-fg);
+  font-weight: 600;
+}
+
+.app-sidebar__item--disabled {
+  opacity: 0.62;
+}
+
+.app-sidebar__item--disabled .app-sidebar__icon,
+.app-sidebar__item--disabled .app-sidebar__label {
+  color: var(--color-text-muted);
+}
+
+.app-sidebar__icon {
+  color: var(--color-text-muted);
+  margin-right: var(--space-2);
+  transition: color 160ms ease;
+}
+
+.app-sidebar__label {
+  font-size: 0.875rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 1;
+  transition: opacity 160ms ease;
+}
+
+.app-sidebar--rail .app-sidebar__group-text,
+.app-sidebar--rail .app-sidebar__label {
+  opacity: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+.app-sidebar--rail .app-sidebar__group-label {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.app-sidebar--rail .app-sidebar__item {
+  display: flex;
+  justify-content: center;
+}
+
+.app-sidebar--rail .app-sidebar__icon {
+  margin-right: 0;
+}

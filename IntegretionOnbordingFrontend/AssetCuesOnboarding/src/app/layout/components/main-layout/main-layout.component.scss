@@ -1,0 +1,85 @@
+:host {
+  display: block;
+  height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
+  background: var(--color-background);
+}
+
+.main-layout__header {
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+
+.main-layout__container {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  background: transparent;
+}
+
+.main-layout__sidenav {
+  width: var(--shell-sidebar-width);
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xs);
+  transition: width var(--transition-base) var(--easing-standard);
+}
+
+.main-layout--rail .main-layout__sidenav {
+  width: var(--shell-sidebar-rail-width);
+}
+
+/*
+ * Do not set width/max-width: 100% on mat-sidenav-content.
+ * Material applies margin-left for side-mode drawers; width:100% + that
+ * margin overflows the container and clips the right edge of the page.
+ */
+.main-layout__content-shell {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 100%;
+  min-width: 0;
+  background: var(--color-background);
+}
+
+.main-layout__content {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: var(--shell-content-padding-y) var(--shell-content-padding-x);
+  overflow-x: hidden;
+}
+
+@media (max-width: 767.98px) {
+  .main-layout__content {
+    padding: 16px;
+  }
+}
+
+@media (min-width: 1366px) and (max-width: 1599.98px) {
+  .main-layout__content {
+    padding: 18px 20px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .main-layout__content {
+    padding: 20px 24px;
+  }
+}

@@ -1,0 +1,104 @@
+// ---------------------------------------------------------------------------
+// Dialog system — confirmation, delete, success, warning, error
+// ---------------------------------------------------------------------------
+
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-shape: var(--radius-lg);
+}
+
+.mat-mdc-dialog-surface {
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
+  overflow: hidden;
+}
+
+.ac-dialog {
+  min-width: min(100%, 420px);
+}
+
+.ac-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-5) var(--space-3);
+}
+
+.ac-dialog__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+.ac-dialog__title {
+  margin: 0;
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.ac-dialog__subtitle {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-helper);
+  color: var(--color-text-muted);
+}
+
+.ac-dialog__content {
+  padding: 0 var(--space-5) var(--space-4);
+  font-size: var(--font-size-body);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+.ac-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5) var(--space-5);
+}
+
+.ac-dialog--confirm .ac-dialog__icon {
+  background: var(--color-info-light);
+  color: var(--color-info);
+}
+
+.ac-dialog--delete .ac-dialog__icon,
+.ac-dialog--error .ac-dialog__icon {
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+}
+
+.ac-dialog--success .ac-dialog__icon {
+  background: var(--color-success-light);
+  color: var(--color-success);
+}
+
+.ac-dialog--warning .ac-dialog__icon {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
+.mat-mdc-dialog-container.ac-dialog-panel-confirm .mdc-dialog__title,
+.ac-dialog--confirm .ac-dialog__title {
+  color: var(--color-text);
+}
+
+.mat-mdc-dialog-container.ac-dialog-panel-delete .mdc-dialog__title,
+.ac-dialog--delete .ac-dialog__title,
+.mat-mdc-dialog-container.ac-dialog-panel-error .mdc-dialog__title,
+.ac-dialog--error .ac-dialog__title {
+  color: var(--color-danger);
+}
+
+.mat-mdc-dialog-container.ac-dialog-panel-success .mdc-dialog__title,
+.ac-dialog--success .ac-dialog__title {
+  color: var(--color-success);
+}
+
+.mat-mdc-dialog-container.ac-dialog-panel-warning .mdc-dialog__title,
+.ac-dialog--warning .ac-dialog__title {
+  color: var(--color-warning);
+}

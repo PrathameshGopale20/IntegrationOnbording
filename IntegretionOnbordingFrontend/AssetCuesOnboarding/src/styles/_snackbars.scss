@@ -1,0 +1,15 @@
+.ac-snackbar {
+  --mdc-snackbar-container-shape: var(--radius-md);
+}
+
+.ac-snackbar--success {
+  --mdc-snackbar-container-color: var(--color-success);
+  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-snack-bar-button-color: #fff;
+}
+
+.ac-snackbar--error {
+  --mdc-snackbar-container-color: var(--color-danger);
+  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-snack-bar-button-color: #fff;
+}
